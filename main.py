@@ -12,10 +12,14 @@ class City(BaseModel):
 @app.get('/')
 
 def index():
+    """Sample Function"""
+    print(index.__doc__)
     return({'key' : 'value'})
 
 @app.get('/cities')
 def get_cities():
+    """Function to get all cities stored in the database"""
+    print(get_cities.__doc__)
     results = []
     for city in db:
         r = requests.get(f'http://worldtimeapi.org/api/timezone/{city["timezone"]}')
@@ -25,6 +29,8 @@ def get_cities():
 
 @app.get('/cities/{city_id}')
 def get_city(city_id: int):
+    """Function to get a specific city by city_id"""
+    print(get_city.__doc__)
     city = db[city_id - 1]
     r = requests.get(f'http://worldtimeapi.org/api/timezone/{city["timezone"]}')
     current_time = r.json()['datetime']
@@ -32,10 +38,14 @@ def get_city(city_id: int):
     
 @app.post('/cities')
 def create_city(city: City):
+    """Function to add cities"""
+    print(create_city.__doc__)
     db.append(city.dict())
     return db[-1]
 
 @app.delete('/cities/{city_id}')
 def delete_city(city_id: int):
+    """Function to delete a specific city by city_id"""
+    print(delete_city.__doc__)
     db.pop(city_id-1)
     return {}
